@@ -1,6 +1,6 @@
 USE employee_db;
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES ('John', 'Doe', 1, 3),
 ('Mike', 'Chan', 1, 1),
 ('Ashley', 'Rodriguez', 2, NULL),
@@ -10,7 +10,7 @@ VALUES ('John', 'Doe', 1, 3),
 ('Tom', 'Allen', 4, 6),
 ('Christian', 'Eckenrode', 2, 2);
 
-INSERT INTO role (title, salary, department_id)
+INSERT INTO roles (title, salary, department_id)
 VALUES ('Sales Lead', 100000, 1),
 ('Salesperson', 80000, 2),
 ('Lead Engineer', 150000, 3),
@@ -20,7 +20,7 @@ VALUES ('Sales Lead', 100000, 1),
 ('Lawyer', 190000, 7);
 
 
-INSERT INTO department (name)
+INSERT INTO departments (name)
 VALUES ('Sales'),
 ('Engineering'),
 ('Finance'),
