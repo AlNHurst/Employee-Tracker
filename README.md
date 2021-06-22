@@ -15,7 +15,7 @@ The note taker is an application that can be used by business owners to view and
 
 ## Demonstration
 * Video Demonstration
-![gif Demonstration](https://github.com/AlNHurst/note-taker/blob/main/Assets/employee-tracker.gif)
+![gif Demonstration](https://github.com/AlNHurst/employee-tracker/blob/main/assets/employee-tracker.gif)
 
 ## Installation
 *  The application will require the following dependencies: inquirer, mysql, and console.table. Run 'npm i' to install the dependencies. 
