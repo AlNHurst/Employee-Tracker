@@ -19,16 +19,28 @@ const viewEmployees = () => {
     ON employees.role_id = roles.id
     INNER JOIN departments 
     ON roles.department_id = departments.id`,
-    (err, results) => {
-        if (err) throw (err);
-        console.table(results);
-        connection.end();
-    });
+        (err, results) => {
+            if (err) throw (err);
+            console.table(results);
+            connection.end();
+        });
 };
 
+// function to view all departments
+
+const viewDepartments = () => {
+    console.log('Viewing departments...\n');
+    connection.query(`
+    SELECT * FROM departments`,
+    (err, results) => {
+    if (err) throw (err);
+    console.table(results);
+    connection.end();
+})
+};
 
 
 connection.connect((err) => {
     if (err) throw err;
-    viewEmployees();
+    viewDepartments();
 });
