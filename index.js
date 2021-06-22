@@ -12,11 +12,13 @@ const connection = mysql.createConnection({
 
 const viewEmployees = () => {
     console.log('Viewing all employees...\n');
-    let query = connection.query(`
-    SELECT employees.first_name, employees.last_name, employees.role_id, employees.manager_id, roles.title, roles.salary, roles.department_id
+    connection.query(`
+    SELECT employees.id, employees.first_name, employees.last_name, roles.title, roles.salary, departments.name AS department
     FROM employees
     INNER JOIN roles
-    ON employees.role_id = roles.id`,
+    ON employees.role_id = roles.id
+    INNER JOIN departments 
+    ON roles.department_id = departments.id`,
     (err, results) => {
         if (err) throw (err);
         console.table(results);
