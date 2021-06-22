@@ -31,7 +31,7 @@ const viewEmployees = () => {
 const viewDepartments = () => {
     console.log('Viewing departments...\n');
     connection.query(`
-    SELECT roles.department_id, roles.title, roles.salary, departments.name 
+    SELECT roles.department_id, roles.title, departments.name AS department, roles.salary
     FROM departments
     INNER JOIN roles
     ON departments.id = roles.department_id`,
