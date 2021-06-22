@@ -20,6 +20,8 @@ const start = () => {
                 'View Departments',
                 'View Roles',
                 'Add Employees',
+                'Add Departments',
+                'Add Roles',
                 'Remove Employees',
                 'Update Employee Role',
                 'Update Employee Manager'
@@ -36,6 +38,15 @@ const start = () => {
                 case 'View Roles':
                     viewRoles();
                     break;
+                case 'Add Employees':
+                    addEmployees();
+                    break;
+                case 'Add Departments':
+                    addDepartment();
+                    break;
+                case 'Add Roles':
+                    addRoles();
+                    break;
                 default:
                     connection.end();
                     break;
@@ -43,6 +54,71 @@ const start = () => {
         });
 };
 
+// function to add new Department
+const addDepartment = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'departmentName',
+                message: 'Enter the department\'s name:'
+            }
+        ])
+        .then((answer) => {
+            connection.query(`INSERT INTO departments SET ?`,
+                {
+                    name: answer.departmentName
+                },
+                (err, results) => {
+                    if (err) throw (err);
+                    console.log('Your department has been added!');
+                    start();
+                });
+        });
+};
+
+// function to add new Employees 
+const addEmployees = () => {
+    connection.query('SELECT * FROM roles', (err, results) => {
+        if (err) throw (err);
+        const rolesArray = results.map((data) => {
+            return { name: data.title, value: data.id }
+        });
+
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: 'Enter employee\'s first name:',
+                },
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: 'Enter employee\'s last name:',
+                },
+                {
+                    type: 'list',
+                    message: 'Select employee\'s role:',
+                    name: 'roleId',
+                    choices: rolesArray
+                },
+            ])
+            .then((answer) => {
+                connection.query(`INSERT INTO employees SET ?`,
+                    {
+                        first_name: answer.firstName,
+                        last_name: answer.lastName,
+                        role_id: answer.roleId
+                        // manager_id: answer.managerId
+                    }, (err, results) => {
+                        if (err) throw (err);
+                        console.log('Your employee has been added!');
+                        start();
+                    });
+            });
+    });
+}
 
 // function to view all employees 
 const viewEmployees = () => {
