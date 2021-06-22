@@ -31,7 +31,10 @@ const viewEmployees = () => {
 const viewDepartments = () => {
     console.log('Viewing departments...\n');
     connection.query(`
-    SELECT * FROM departments`,
+    SELECT roles.department_id, roles.title, roles.salary, departments.name 
+    FROM departments
+    INNER JOIN roles
+    ON departments.id = roles.department_id`,
     (err, results) => {
     if (err) throw (err);
     console.table(results);
