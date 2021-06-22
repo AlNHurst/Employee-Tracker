@@ -54,6 +54,50 @@ const start = () => {
         });
 };
 
+// function to add new Roles
+const addRoles = () => {
+    connection.query('SELECT * FROM departments', (err, results) => {
+        if (err) throw (err);
+        const departmentsArray = results.map((data) => {
+            return { name: data.name, value: data.id }
+        });
+        console.log(departmentsArray);
+
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'roleTitle',
+                    message: 'Enter the role\'s title:'
+                },
+                {
+                    type: 'input',
+                    name: 'roleSalary',
+                    message: 'Enter the role\'s salary:'
+                },
+                {
+                    type: 'list',
+                    name: 'departmentId',
+                    message: 'Enter the role\'s department:',
+                    choices: departmentsArray
+                }
+            ])
+            .then((answer) => {
+                connection.query(`INSERT INTO roles SET ?`,
+                    {
+                        title: answer.roleTitle,
+                        salary: answer.roleSalary,
+                        department_id: answer.departmentId
+                    },
+                    (err, results) => {
+                        if (err) throw (err);
+                        console.log('Your role has been added!');
+                        start();
+                    });
+            });
+    });
+};
+
 // function to add new Department
 const addDepartment = () => {
     inquirer
@@ -154,9 +198,9 @@ const viewRoles = () => {
     console.log('Viewing roles...\n');
     connection.query(`
     SELECT roles.id, roles.title, departments.name AS department, roles.salary
-    FROM departments
-    INNER JOIN roles
-    ON departments.id = roles.department_id`,
+    FROM roles
+    LEFT JOIN departments
+    ON roles.department_id = departments.id`,
         (err, results) => {
             if (err) throw (err);
             console.table(results);
